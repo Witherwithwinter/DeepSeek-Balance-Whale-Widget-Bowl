@@ -1,0 +1,4 @@
+.zcode/
+node_modules/
+*.bak
+*.wav
