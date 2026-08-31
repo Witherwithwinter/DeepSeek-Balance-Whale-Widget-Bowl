@@ -173,6 +173,10 @@ curl "http://127.0.0.1:<端口>/dsh-whale-bowl/size.json"
 npm test
 ```
 
+## 更新日志
+
+见 [CHANGELOG.md](CHANGELOG.md)。
+
 ## 许可证
 
 本项目基于 **MIT License** 开源，详见 [LICENSE](LICENSE)。原版作者 [MeteorNOX](https://github.com/MeteorNOX)，感谢其优秀的工作。
