@@ -162,6 +162,12 @@ curl "http://127.0.0.1:<端口>/dsh-whale-bowl/size.json"
 
 完整规格、视觉参数、架构结论见 `whale-widget-prompt.md`（其中已补记本 fork 的形象切换与钢管音效规格）。
 
+自检（不需要 DSH 运行时，校验峰谷判定与配置夹紧等纯函数）：
+
+```powershell
+npm test
+```
+
 ## 许可证
 
 本项目基于 **MIT License** 开源，详见 [LICENSE](LICENSE)。原版作者 [MeteorNOX](https://github.com/MeteorNOX)，感谢其优秀的工作。
