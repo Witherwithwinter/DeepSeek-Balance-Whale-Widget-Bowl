@@ -18,8 +18,14 @@
     "lib",
     "assets",
     "cordis.patch.yml",
-    "README.md"
+    "screenshots.json",
+    "README.md",
+    "README.en.md"
   ],
+  "engines": {
+    "node": ">=18"
+  },
+  "author": "Witherwithwinter",
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
