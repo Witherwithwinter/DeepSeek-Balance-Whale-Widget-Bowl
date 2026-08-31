@@ -1,5 +1,7 @@
 # DeepSeek Balance Whale Widget Bowl（DSH 铁盆鲸鱼娘挂件）
 
+[English README](README.en.md)
+
 ![DSH 铁盆鲸鱼娘挂件](assets/DSH2.png)
 
 DeepSeek Harness（DSH）Web 界面右下角的常驻余额挂件。基于 [MeteorNOX/DeepSeek-Balance-Whale-Widget](https://github.com/MeteorNOX/DeepSeek-Balance-Whale-Widget) 修改的 **铁盆鲸鱼娘版**：新增 **三套形象切换**（默认 / 顶碗 / 拿碗）与 **钢管音效**，其余功能与原版一致（余额 + 今日已用 + 每轮对话消耗统计 + Q 弹拖拽 + 随机台词）。本插件是标准 DSH bundle 插件包。
