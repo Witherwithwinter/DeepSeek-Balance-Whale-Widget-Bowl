@@ -31,8 +31,11 @@ DeepSeek Harness（DSH）Web 界面右下角的常驻余额挂件。基于 [Mete
 DeepSeek-Balance-Whale-Widget-Bowl/
 ├── package.json            # DSH bundle 插件元数据（dsh.bundle.patch → cordis.patch.yml）
 ├── cordis.patch.yml        # 插件挂载声明（id: dsh-whale-widget-bowl）
+├── screenshots.json        # 插件市场展示图声明（1-8 张，路径相对本文件）
 ├── lib/
 │   └── index.js            # 宿主侧插件本体（HTTP 路由 / 前端 widget.js / 定价表 / 形象与音效注册表）
+├── test/
+│   └── helpers.test.mjs    # 纯函数自检（npm test）
 ├── assets/
 │   ├── DSH2.png            # README 顶部展示图
 │   ├── DSniang1.png        # 默认形象（原版鲸鱼娘，610×610 cut-out）
