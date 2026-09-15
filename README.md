@@ -1,5 +1,7 @@
 # DSH 铁盆鲸鱼娘挂件（DeepSeek Balance Whale Widget Bowl）
 
+[English README](README.en.md)
+
 ![DSH 铁盆鲸鱼娘挂件](assets/DSH2.png)
 
 DeepSeek Harness（DSH）Web 界面右下角的常驻挂件：小鲸鱼气泡图 + DeepSeek API 余额 + 今日已用 + 每轮对话消耗，并且**泡泡内容可以完全自定义**（点击序列、模块化排版、并列加权出泡、随机语句/随机图片）。标准 DSH bundle 插件，`dsh plugin` 一键安装，无需任何会话令牌。
@@ -110,10 +112,14 @@ DeepSeek Harness（DSH）Web 界面右下角的常驻挂件：小鲸鱼气泡图
 ```text
 dsh-whale-widget-bowl/
 ├── package.json              # DSH bundle 插件元数据（dsh.bundle.patch 指向 cordis.patch.yml）
-├── README.md                 # 本文件
+├── README.md                 # 本文件（英文版见 README.en.md）
+├── CHANGELOG.md              # 更新日志
 ├── cordis.patch.yml          # 插件挂载声明
+├── screenshots.json          # 插件市场展示图声明（1-8 张，路径相对本文件）
 ├── lib/
 │   └── index.js              # 宿主侧插件本体（路由 + 记账 + 音效/图片/角色服务）
+├── test/
+│   └── helpers.test.mjs      # 纯函数自检（npm test）
 ├── assets/
 │   ├── whale-widget.js       # 前端挂件本体（由宿主按 mtime 热读取）
 │   ├── DSH2.png              # README 顶部展示图
@@ -392,6 +398,16 @@ curl http://127.0.0.1:3080/dsh-whale/audio.json
 - 仓库里 `lib/index.js` 是宿主本体、`assets/whale-widget.js` 是前端本体；两者独立演进：**前端改动硬刷新页面即生效，宿主改动需重启 `dsh web`**。
 - 完整规格、视觉参数、路由清单、架构结论与生成提示词见 [`whale-widget-prompt.md`](whale-widget-prompt.md)。
 - 本地联调：`dsh plugin --profile web add link:.` 后，改前端 → Ctrl+F5；改宿主 → 重启 `dsh web`。
+
+自检（不需要 DSH 运行时，校验峰谷判定与配置夹紧等纯函数）：
+
+```powershell
+npm test
+```
+
+## 更新日志
+
+见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 许可证
 

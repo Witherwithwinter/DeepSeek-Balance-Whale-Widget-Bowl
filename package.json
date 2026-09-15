@@ -11,12 +11,21 @@
   ],
   "type": "module",
   "main": "lib/index.js",
+  "scripts": {
+    "test": "node test/helpers.test.mjs"
+  },
   "files": [
     "lib",
     "assets",
     "cordis.patch.yml",
-    "README.md"
+    "screenshots.json",
+    "README.md",
+    "README.en.md"
   ],
+  "engines": {
+    "node": ">=18"
+  },
+  "author": "Witherwithwinter",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Witherwithwinter/DeepSeek-Balance-Whale-Widget-Bowl.git"
