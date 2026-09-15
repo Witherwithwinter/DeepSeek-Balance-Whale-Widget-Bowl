@@ -1,7 +1,7 @@
 {
   "name": "dsh-whale-widget-bowl",
-  "version": "0.3.0",
-  "description": "DSH Web 界面右下角的 DeepSeek 余额小鲸鱼挂件 · 铁盆鲸鱼娘版（含默认/顶碗/拿碗三套形象切换、钢管音效、今日已用、峰谷定价、随机台词与每轮消耗统计）。基于 MeteorNOX/DeepSeek-Balance-Whale-Widget 修改。",
+  "version": "0.4.0",
+  "description": "DSH Web 界面右下角的 DeepSeek 余额小鲸鱼挂件 · 铁盆鲸鱼娘版（基于 MeteorNOX/DeepSeek-Balance-Whale-Widget v0.3.0 整合）：余额/今日已用/峰谷定价、自定义泡泡点击序列、逐行样式与字体、音效与每轮消耗、自定义角色/动图/音效、吸附与翻转自定义，并内置顶碗/拿碗两套铁盆鲸鱼娘形象与钢管音效",
   "keywords": [
     "dsh",
     "dsh-plugin",
@@ -17,12 +17,6 @@
     "cordis.patch.yml",
     "README.md"
   ],
-  "dsh": {
-    "bundle": {
-      "patch": "./cordis.patch.yml"
-    }
-  },
-  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Witherwithwinter/DeepSeek-Balance-Whale-Widget-Bowl.git"
@@ -30,5 +24,11 @@
   "bugs": {
     "url": "https://github.com/Witherwithwinter/DeepSeek-Balance-Whale-Widget-Bowl/issues"
   },
-  "homepage": "https://github.com/Witherwithwinter/DeepSeek-Balance-Whale-Widget-Bowl#readme"
+  "homepage": "https://github.com/Witherwithwinter/DeepSeek-Balance-Whale-Widget-Bowl#readme",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "license": "MIT"
 }
