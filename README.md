@@ -366,6 +366,7 @@ curl http://127.0.0.1:3080/dsh-whale/audio.json
 
 ## 常见问题
 
+- **桌面端（dsh-desktop）看不到挂件**：桌面端窗口的入口 HTML 由 Electron 壳经 `dsh-app://app/` 直接读打包的 `dist/index.html`，**不经过 `webServer.renderIndex()`**，所以只靠 `tapIndex` 注入的脚本在桌面端永远不会执行 —— 表现是"装上了、不报错、就是看不见"。插件现已同时向官方注入表（`webserver/index-inject`）推一行，桌面端与浏览器端都能挂载；且桌面端不吃 F5，改完宿主侧 `lib/index.js` 需**重启 dsh-desktop**。
 - **挂件不出现**：确认安装命令成功；`dsh --profile web --dump-config` 里能看到 `dsh-whale-widget-bowl`；重启 `dsh web` 后 F5。
 - **想换成顶碗 / 拿碗形象**：菜单第一行「角色」下拉里选「顶碗鲸鱼娘」/「拿碗鲸鱼娘」，📌置顶后重启保持。
 - **顶碗 / 拿碗删不掉**：两套形象是随包**内置角色**（资源管理窗口里标记「内置角色」），按设计不可删除；想隐藏可以在角色下拉里继续用默认形象。
