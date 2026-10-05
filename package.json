@@ -1,18 +1,19 @@
 {
   "name": "dsh-whale-widget-bowl",
-  "version": "0.4.0",
-  "description": "DSH Web 界面右下角的 DeepSeek 余额小鲸鱼挂件 · 铁盆鲸鱼娘版（基于 MeteorNOX/DeepSeek-Balance-Whale-Widget v0.3.0 整合）：余额/今日已用/峰谷定价、自定义泡泡点击序列、逐行样式与字体、音效与每轮消耗、自定义角色/动图/音效、吸附与翻转自定义，并内置顶碗/拿碗两套铁盆鲸鱼娘形象与钢管音效",
+  "version": "0.5.0",
+  "description": "DSH 界面右下角的 DeepSeek 余额小鲸鱼挂件 · 铁盆鲸鱼娘版（整合 MeteorNOX/DeepSeek-Balance-Whale-Widget v0.3.18，含官方桌面端 Electron 支持）：余额/今日已用/峰谷定价、自定义泡泡点击序列、逐行样式与字体、音效与每轮消耗、自定义角色/动图/音效、吸附与翻转自定义，并内置顶碗/拿碗两套铁盆鲸鱼娘形象与钢管音效",
   "keywords": [
     "dsh",
     "dsh-plugin",
     "deepseek-harness",
     "balance",
-    "widget"
+    "widget",
+    "desktop"
   ],
   "type": "module",
   "main": "lib/index.js",
   "scripts": {
-    "test": "node test/helpers.test.mjs"
+    "test": "node test/helpers.test.mjs && node test/host-smoke.test.mjs"
   },
   "files": [
     "lib",
@@ -20,7 +21,9 @@
     "cordis.patch.yml",
     "screenshots.json",
     "README.md",
-    "README.en.md"
+    "README.en.md",
+    "CHANGELOG.md",
+    "PROVENANCE.md"
   ],
   "engines": {
     "node": ">=18"

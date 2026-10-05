@@ -1,0 +1,14 @@
+# 统一换行符：仓库里一律 LF（本机 core.autocrlf=true 时，git 检出/恢复会把工作区文件变成 CRLF，
+# 而 `Compress-Archive` 打的是工作区内容 ⇒ 2026-09-28 发 0.3.17 时踩到：发布副本的 whale-widget.js
+# 变成 CRLF(861,018 B)，与开发版(LF 843,969 B)不再逐字节一致，打出来的 zip 也和 npm 包不一致）。
+# 规则：文本文件一律以 LF 存储与检出；二进制文件不做任何转换。
+* text=auto eol=lf
+*.png binary
+*.gif binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.wav binary
+*.mp3 binary
+*.ico binary
+*.zip binary

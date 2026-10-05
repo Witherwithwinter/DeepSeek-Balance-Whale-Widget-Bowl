@@ -201,30 +201,56 @@ div.dshwv-root（position:fixed，承载定位与翻转）
 3. 浏览器 **F5 刷新页面**后出现挂件。
 4. 交互自测：拖拽 + 四边四分之一吸附（含角落组合）、左吸附镜像翻转、菜单（大小/音效/音量/用量）、按压 Q 弹 + 音效、点击鲸鱼弹气泡 → 首次点击切台词 → 再点关闭、5 秒自动收起、60s 自动刷新、余额变化数字滚动、记账模式跨天归档。
 
-## 八、铁盆鲸鱼娘版（本 fork）的增量规格
+## 八、铁盆鲸鱼娘版（本 fork）的增量与同步方式
 
-本仓库基于 MeteorNOX/DeepSeek-Balance-Whale-Widget v0.3.0 二次开发（包名 `dsh-whale-widget-bowl`，patch id 同名）。重复能力全部沿用原作者实现，仅以下两处为 fork 增量：
+本仓库基于 [MeteorNOX/DeepSeek-Balance-Whale-Widget](https://github.com/MeteorNOX/DeepSeek-Balance-Whale-Widget) **v0.3.18** 二次开发（包名 `dsh-whale-widget-bowl`，patch id 同名，二者必须一致）。重复能力**全部**沿用原作者实现，本 fork 只有两处功能增量，外加若干加固。
 
-### 内置角色：顶碗 / 拿碗鲸鱼娘
+### 同步方式（最重要的一条）
+
+本仓库**不是** cherry-pick 上游提交，而是「**以上游为基座整体整合 + 重新落增量**」：
+
+1. 以上游目标版本的文件为准（`lib/`、`assets/whale-widget.js`、`cordis.patch.yml`、README 等）；
+2. 把下面两处增量**重新落到新基座**的对应位置（上游改版后位置会变，不能照抄行号）；
+3. 恢复本仓库专属文件：`package.json`（包名 / 版本 / scripts / files）、`cordis.patch.yml` 的 id、`.gitignore` 的本地条目、`CHANGELOG.md`、`README.en.md`、`test/`、`screenshots.json`、`LICENSE` 的 fork 版权行；
+4. 跑 `npm test`（含 fork 不变量断言）与 `node tools/ci-audit.mjs --no-pack`。
+
+第 4 步是护栏：增量在上游改版后「悄悄丢失 / 变成死代码」是这类 fork 最常见的事故，所以 `test/helpers.test.mjs` 把两处增量与桌面端注入链路都写成了可执行断言。
+
+### 增量一：内置角色（顶碗 / 拿碗鲸鱼娘）
 
 - 资产：`assets/DSniang-bowl.png`、`assets/DSniang-hold.png`，均为 1179×1179 正方形透明画布；人物主体按**脸宽**与默认形象对齐（装饰物如铁盆会虚增身高，勿按总高对齐）。
 - 服务端（`lib/index.js`）：
-  - `BUILTIN_ROLES` / `BUILTIN_ROLE_FILES` 常量注册内置角色（`bowl` / `hold`，format png）。
-  - `defaultRolesIndex()` 在默认小鲸鱼之后列出内置角色；`readRolesIndex()` 会对旧版本已持久化的 `roles.json` 兜底补回缺失的内置角色（`unshift` 保持顺序）。
-  - `roleImagePath()` 命中内置 id 时直接返回随包 assets 路径（不落 `$DSH_HOME/whale-roles/`）。
+  - `BUILTIN_ROLES` / `BUILTIN_ROLE_FILES` 常量注册内置角色（`bowl` / `hold`，format png）；`isBuiltinRole(id)` 供路由层校验。
+  - `defaultRolesIndex()` 在默认小鲸鱼之后列出内置角色（`createdAt` 用负值，保证未置顶时恒排在用户导入角色之后）；`readRolesIndex()` 对旧版本已持久化的 `roles.json` 兜底补回缺失条目（`unshift` 保持顺序）。
+  - `roleImagePath()` 命中内置 id 时直接返回随包 assets 路径（**不落** `$DSH_HOME/whale-roles/`）。
   - `role-delete.json` 拒绝删除内置角色（`cannot delete builtin role`）；置顶（pin）允许。
-  - `rolesPayload()` 每条角色带 `builtin: true` 标记。
+  - `rolesPayload()` 每条角色带 `builtin: isBuiltinRole(r.id)` 标记。
 - 前端（`assets/whale-widget.js`）：
-  - 角色下拉 / 首次渲染恢复（`localStorage['dshw-role']`）/ 置顶持久化均为数据驱动，内置角色零特判接入。
-  - `renderRolePanel()` 与资源管理窗口对 `r.builtin` 的条目隐藏/禁用删除按钮。
-- 命中测试：`setupHitTest()` 按 object-fit:contain 几何绘制任意尺寸角色图，1179×1179 与 610×610 均正确。
+  - 角色下拉 / 首次渲染恢复 / 置顶持久化都是数据驱动的，内置角色零特判接入。
+  - `renderRolePanel()` 对 `r.builtin` 隐藏删除按钮；资源管理窗口的「图片」区把内置角色标为「内置角色」且禁用删除。
 
-### 内置音效组：钢管（pipe）
+### 增量二：内置音效组「钢管」（pipe）
 
-- 资产：`assets/P1.mp3`（按下=撞击+前段余音）、`assets/P2.mp3`（松开=后段余音，带淡入衔接；源视频钢管只撞击一次约 0.2s，如此分段避免两段重复）。
-- 服务端：`SOUND_SETS.pipe`（sound/press.mp3、release.mp3 路由的 `?set=pipe`）；`PRESET_GROUPS.pipe`（音效组下拉，name「钢管」，press `p1` / release `p2`）；`PRESET_FRAGMENTS.p1/p2`（mime audio/mpeg）；`BUILTIN_FRAGMENT_FILES.p1/p2`（随包片段字节）；`loadAudioFragmentBytes()` 的 preset 映射表补 `p1: ['pipe','press'], p2: ['pipe','release']`。
-- 前端：任务结束音下拉的 `pre` 预置单音数组补 `preset:pipe:press` / `preset:pipe:release`，同名预设片段从片段候选中排除；`audioGroupName()` 补 pipe 显示名兜底。音效组面板对 `preset` 条目本就只读（显示「预设」标签、无删除按钮），无需改动。
+- 资产：`assets/P1.mp3`（按下 = 撞击 + 前段余音）、`assets/P2.mp3`（松开 = 后段余音；源素材钢管只撞击一次，如此分段避免两段重复）。
+- 服务端：`SOUND_SETS.pipe`（`sound/press.mp3?set=pipe`）；`PRESET_GROUPS.pipe`（音效组下拉，name「钢管」，press `p1` / release `p2`）；`PRESET_FRAGMENTS.p1/p2`（mime audio/mpeg）；`BUILTIN_FRAGMENT_FILES.p1/p2`（随包片段字节）；`loadAudioFragmentBytes()` 的 preset 映射表补 `p1: ['pipe','press'], p2: ['pipe','release']`。
+- 前端：任务结束音下拉的 `pre` 预置单音数组补 `preset:pipe:press` / `preset:pipe:release`，同名预设片段从片段候选中排除（去重列表要同时排除 `p1`/`p2`）；`audioGroupName()` 补 pipe 显示名兜底。音效组面板对 `preset` 条目本就只读，无需改动。
+
+### 加固（相对上游的额外收紧）
+
+- `size.json` 读取与写入两侧都夹紧：`scale` 0.6–2.5、`vol` 0–1；写入走临时文件 + rename 原子写。
+- `role-image.png` / `audio-fragment.wav` / `bubble-img.png` 的 id 一律按 `^[A-Za-z0-9_-]{1,64}$` 正向白名单校验，并**用匹配结果本身**构造路径。
+- 分桶时间兼容 epoch 秒 / epoch 毫秒 / ISO 字符串（`toEpochSeconds()`）。
+- 余额 / 用量端点**不带** `Access-Control-Allow-Origin: *`（挂件与端点同源）。
+- 上游 v0.3.1 起自带的账本原子写与「余额缓存按写入时刻计 TTL」**直接沿上游**，本 fork 不再保留旧写法。
+
+### 官方桌面端（Electron）为什么能显示
+
+桌面壳的 `index.html` 从安装包静态 `dist` 直出（`dsh-app://app/`），**不经过宿主 `renderIndex()`**，所以函数式的 `tapIndex` 过不去 —— 唯一通道是 `webserver/index-inject` 推结构化行。要注意两条：
+
+- 推的必须是**内联 `script` 行**（行内脚本自建 `<script src="/dsh-whale/widget.js">` 并吞掉 `onerror`），**不要**用 `script-src` 行：页面侧解释器对 `script-src` 是「加载失败即 reject」，而那个 reject 会 reject 掉 boot —— 这正是上游 issue #154「关掉插件后刷新应用起不来」的致命错误。
+- 注入行必须在 `apply()` 的**第一步**注册（不能放进 `root.inject([...], cb)` 里）：桌面端的注入表是宿主**启动时一次性收集**的，订阅晚于那次收集就永远进不了表（issue #152/#153）。
 
 ### 与上游共存
 
-- 路由前缀与上游相同（`/dsh-whale/`），**不可与原版同时安装**在同一 Web profile（路由会冲突）；如需共存请自行改名前缀。插件 id 为 `dsh-whale-widget-bowl`，与原版 `dsh-whale-widget` 的插件管理条目互不影响。
+- 路由前缀与上游相同（`/dsh-whale/`），**不可与原版同时启用**在同一 profile（路由会冲突，记账文件也会互相改写）；插件 id 为 `dsh-whale-widget-bowl`，与原版 `dsh-whale-widget` 的插件管理条目互不影响。
+- 桌面端装法见 README「官方桌面端（Electron 客户端）」：不能用 `--profile web`，`--profile desktop` 会被 CLI 拒绝 —— 要在桌面端会话里让 DSH 自己装（内置 `plugin_manager`，作用域 = 当前 profile）。

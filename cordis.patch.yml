@@ -2,12 +2,21 @@
 # dsh-whale-widget-bowl —— DSH bundle patch
 # ============================================================================
 # 这是插件的"挂载声明"。DSH 启动时按 bundle 层栈叠加各插件 patch，
-# 本文件会把鲸鱼余额挂件插入 Web profile 的配置树。
+# 本文件会把鲸鱼余额挂件插入 profile 的配置树（Web 与官方桌面端同一个包）。
 #
 # 安装方式（不再需要手工复制/手工改 profile patch）：
-#   dsh plugin --profile web add dsh-whale-widget-bowl
-# 或本地开发安装：
-#   dsh plugin --profile web add link:<本目录绝对路径>
+#
+#   Web（dsh web）：
+#     dsh plugin --profile web add dsh-whale-widget-bowl
+#     或本地开发安装：
+#     dsh plugin --profile web add link:<本目录绝对路径>
+#
+#   官方桌面端（Electron 客户端）：
+#     ⚠️ 不能用 --profile web（桌面端读的是 desktop profile），
+#     ⚠️ 也不能用 --profile desktop（CLI 会拒绝：该 profile 由客户端独占管理）。
+#     正确做法：在桌面端会话里直接让 DSH 装（它调用内置 plugin_manager，作用域=当前 profile），
+#     例如「把 dsh-whale-widget-bowl 装上」。装完没看到挂件就先重开一次客户端。
+#     详见 README「官方桌面端（Electron 客户端）」一节。
 # ============================================================================
 
 - insert:
